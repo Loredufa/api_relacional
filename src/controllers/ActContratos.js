@@ -1,7 +1,7 @@
 const { Contract } = require('../models/index')
 const { getConnection } = require('../database/connection');
 
-const addBdContract = async (req,res) => {
+const addBdContract = async (req,res) => { 
   try {
     //conecta con la bd de SQL Server
     const pool = await getConnection();

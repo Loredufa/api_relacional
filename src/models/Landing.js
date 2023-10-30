@@ -17,6 +17,10 @@ module.exports = function(sequelize) {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    posicion: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },  
     activo: {
       type:DataTypes.STRING,
       allowNull:true,

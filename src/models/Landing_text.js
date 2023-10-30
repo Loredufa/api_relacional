@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = function(sequelize) {
   // defino el modelo
-  return sequelize.define('landing', {
+  return sequelize.define('landing_text', {
     id:  {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -12,7 +12,11 @@ module.exports = function(sequelize) {
     texto: {
       type: DataTypes.STRING,
       allowNull: true,
-      },    
+      },
+    posicion: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },    
     activo: {
       type:DataTypes.STRING,
       allowNull:true,

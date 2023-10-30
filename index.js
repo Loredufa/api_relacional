@@ -9,7 +9,7 @@ const {conn} = require('./src/models')
 const {PORT} = require('./src/utils/config/index')
 const expressJson = express.json(); 
 const bodyParser  = express.urlencoded({extended: true});
-const { sync } = require('./src/controllers/Sync');
+const { sincronizacion } = require('./src/controllers/Sincronizacion');
 
 
 //Headers
@@ -34,6 +34,6 @@ conn.sync({force:true}).then(() => {
   console.log('Base de datos conectada')
   app.listen(PORT, () => {
     console.log(`Servidor corriendo en puerto ${PORT}`)
-    sync();
+    sincronizacion();
   })
 })

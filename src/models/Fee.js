@@ -9,6 +9,10 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       primaryKey: true
     },
+    contrato_cuyen: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     numPass: {
       type: DataTypes.STRING,
       allowNull: false,

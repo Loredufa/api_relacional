@@ -1,15 +1,16 @@
 const sql = require('mssql')
-const {sql_user, sql_password, sql_server, sql_database} = require('../utils/config')
 
 
 const dbSettings = {
-    user: sql_user,
-    password: sql_password,
-    server: sql_server,
-    database: sql_database,
+    user: 'lorena',
+    password: 'Nico0804',
+    server: 'LDUFAUR2\\SQLEXPRESS',
+    database: 'cuyenbyapi',
     options:{
         encrypt: true,
-        trustServerCertificate: true}
+        trustServerCertificate: true,
+        requestTimeout: 60000 //tiempo de espera 60 segundos (por defecto es 5000 ms)
+    }
 }
 
 

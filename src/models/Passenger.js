@@ -94,7 +94,7 @@ module.exports = function(sequelize) {
         type:DataTypes.STRING,
         allowNull:true,
     },
-    porDesc: {
+    porDes: {
         type:DataTypes.STRING,
         allowNull:true,
     },

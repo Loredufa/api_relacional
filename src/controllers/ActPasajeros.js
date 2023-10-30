@@ -1,7 +1,7 @@
-const { Contract } = require('../models/index')
+const { Passenger } = require('../models/index')
 const { getConnection } = require('../database/connection');
 
-const addBdContract = async (req,res) => {
+const addBdPassenger = async (req,res) => { 
   try {
     //conecta con la bd de SQL Server
     const pool = await getConnection();
@@ -12,45 +12,67 @@ const addBdContract = async (req,res) => {
     // Convierte los datos a formato JSON para ser compatible con la bs Postgres
     const jsonData = bd.map((el) => {
       return {
-        num : el.CON_NUM.toString(),
-        fecha: el.CON_FECHA ? el.CON_FECHA.toString() : '',
-        curso: el.CON_CURSO ? el.CON_CURSO.toString() : '',
-        division: el.CON_DIVISION ? el.CON_DIVISION.toString() : '',
-        turno: el.CON_TURNO ? el.CON_TURNO.toString() : '',
-        colegio: el.CON_COLEGIO ? el.CON_COLEGIO.toString() : '',
-        pasajeros: el.CON_PASAJEROS ? el.CON_PASAJEROS.toString() : '',
-        mes: el.CON_MES ? el.CON_MES.toString() : '',
-        año: el.CON_AÑO ? el.CON_AÑO.toString() : '',
-        periodo: el.CON_PERIODO ? el.CON_PERIODO.toString() : '',
-        destino: el.CON_DESTINO ? el.CON_DESTINO.toString() : '',
-        impTot: el.CON_IMPTOT ? el.CON_IMPTOT.toString() : '',
-        canc: el.CON_CANC ? el.CON_CANC.toString() : '',
-        realiz: el.CON_REALIZ ? el.CON_REALIZ.toString() : '',
-        hotel: el.CON_HOTEL ? el.CON_HOTEL.toString() : '',
-        duracion: el.CON_DURACION ? el.CON_DURACION.toString() : '',
-        fechaFirma: el.CON_FECHAFIRMA ? el.CON_FECHAFIRMA.toString() : '',
-        fechaViaje: el.CON_FECHAVIAJE ? el.CON_FECHAVIAJE.toString() : '',
-        ImpTotAct: el.CON_IMPTOTACT ? el.CON_IMPTOTACT.toString() : '',
-        fechaActu: el.CON_FECHAACTU ? el.CON_FECHAACTU.toString() : '',
+        contratos : el.PAS_CONTRATO.toString(),
+        numPas: el.PAS_NUMPAS.toString(),
+        apellido: el.PAS_APELLIDO ? el.PAS_APELLIDO.toString() : '',
+        nombre: el.PAS_NOMBRE ? el.PAS_NOMBRE.toString() : '',
+        dni: el.PAS_DNI ? el.PAS_DNI.toString() : '',
+        tipoDoc: el.PAS_TIPODOC ? el.PAS_TIPODOC.toString() : '',
+        fechaNac: el.PAS_FECHANAC ? el.PAS_FECHANAC.toString() : '',
+        edad: el.PAS_EDAD ? el.PAS_EDAD.toString() : '',
+        sexo: el.PAS_SEXO ? el.PAS_SEXO.toString() : '',
+        direccion: el.PAS_DIRECCION ? el.PAS_DIRECCION.toString() : '',
+        piso: el.PAS_PISO ? el.PAS_PISO.toString() : '',
+        depto: el.PAS_DEPTO ? el.PAS_DEPTO.toString() : '',
+        localidad: el.PAS_LOCALID ? el.PAS_LOCALID.toString() : '',
+        codPos: el.PAS_CODPOS ? el.PAS_CODPOS.toString() : '',
+        provinc: el.PAS_PROVINC ? el.PAS_PROVINC.toString() : '',
+        telef: el.PAS_TELEF ? el.PAS_TELEF.toString() : '',
+        correo: el.PAS_CORREO ? el.PAS_CORREO.toString() : '',
+        importe: el.PAS_IMPORTE ? el.PAS_IMPORTE.toString() : '',
+        cuotas: el.PAS_CUOTAS ? el.PAS_CUOTAS.toString() : '',
+        resp: el.PAS_RESP ? el.PAS_RESP.toString() : '',
+        venCuo: el.PAS_VENCUO ? el.PAS_VENCUO.toString() : '',
+        porDes: el.PAS_PORDES ? el.PAS_PORDES.toString() : '',
+        flagpf: el.PAS_FLAGPF? el.PAS_FLAGPF.toString() : '',
+        celular: el.PAS_CELULAR ? el.PAS_CELULAR.toString() : '',
+        flagViaja: el.PAS_FLAGVIAJA ? el.PAS_FLAGVIAJA.toString() : '',
+        flagaCompra: el.PAS_FLAGACOMPA ? el.PAS_FLAGACOMPA.toString() : '',
+        totContrato: el.PAS_TOTCONTRATO ? el.PAS_TOTCONTRATO.toString() : '',
         usuarioLog: el.USUARIOLOG ? el.USUARIOLOG.toString() : '',
         fechaLog: el.FECHALOG ? el.FECHALOG.toString() : '',
+        pasMontoDevuelto: el.PAS_MONTODEVUELTO ? el.PAS_MONTODEVUELTO.toString() : '',
+        id_sucursal: el.ID_SUCURSAL ? el.ID_SUCURSAL.toString() : ''
       };
     });
     const newTable = await Promise.all (
       jsonData.map ( async (el)=> {
 // Verifica si el elemento ya existe en la base de datos Postgres
-        const existingItem = await Contract.findOne({
-           where: { num: el.num}, 
+        const existingItem = await Passenger.findOne({
+           where: { 
+            contratos: el.contratos,
+            numPas: el.numPas
+          }, 
          });
         //Si existe actualiza los datos de POstgres tal cual estan en SQL Server
         if(existingItem) {
           await existingItem.update(el) 
+          return { action: 'update', numPas: el.numPas };
         } else { //Si no existe lo creo
-          await Contract.create(el)
+          await Passenger.create(el)
+          return { action: 'create', numPas: el.numPas }
         }
       }      
     ))
-    newTable? res.status(200).send(newTable) : res.status(401).send({message:'No se actualizar la bd'})
+    //Guardo los registros para dar respuesta 
+    const updatedItems = newTable.filter((item) => item.action === 'update');
+    const createdItems = newTable.filter((item) => item.action === 'create');
+    const responseMessage = {
+      message: 'Sincronización completada',
+      updatedItems,
+      createdItems,
+    };
+    return responseMessage;
   } catch (error) { console.log("Algo salio mal: ", error); 
 
 }
@@ -58,5 +80,5 @@ const addBdContract = async (req,res) => {
 
 
 module.exports = {
-    addBdContract
+  addBdPassenger
 }

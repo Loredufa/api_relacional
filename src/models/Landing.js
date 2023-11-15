@@ -9,7 +9,7 @@ module.exports = function(sequelize) {
       autoIncrement: true,
       primaryKey: true
     },
-    imagen: {
+    image: {
       type: DataTypes.STRING,
       allowNull: true,
       }, 

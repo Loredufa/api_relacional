@@ -1,16 +1,13 @@
 const { Passenger } = require('../models/index')
-const { getConnection } = require('../database/connection');
+const { redisClient } = require('../utils/redisClient');
 
 const addBdPassenger = async (req,res) => { 
   try {
-    //conecta con la bd de SQL Server
-    const pool = await getConnection();
-    //Trae la información de la tabla contratos
-    const result = await pool.request().query("SELECT * FROM PASAJEROS");
-    const bd = result.recordset
+    const bd = await redisClient.get('PASAJEROS');
+    const jsonData = Array.isArray(bd) ? bd : JSON.parse(bd || '[]');
 
     // Convierte los datos a formato JSON para ser compatible con la bs Postgres
-    const jsonData = bd.map((el) => {
+    const jsonNewData = jsonData.map((el) => {
       return {
         contratos : el.PAS_CONTRATO.toString(),
         numPas: el.PAS_NUMPAS.toString(),
@@ -46,7 +43,7 @@ const addBdPassenger = async (req,res) => {
       };
     });
     const newTable = await Promise.all (
-      jsonData.map ( async (el)=> {
+      jsonNewData.map ( async (el)=> {
 // Verifica si el elemento ya existe en la base de datos Postgres
         const existingItem = await Passenger.findOne({
            where: { 
@@ -57,12 +54,12 @@ const addBdPassenger = async (req,res) => {
         //Si existe actualiza los datos de POstgres tal cual estan en SQL Server
         if(existingItem) {
           await existingItem.update(el) 
-          return { action: 'update', numPas: el.numPas };
+          return { action: 'update', numPas: el.numPas, contrato_cuyen:el.contratos };
         } else { //Si no existe lo creo
           await Passenger.create(el)
-          return { action: 'create', numPas: el.numPas }
+          return { action: 'create', numPas: el.numPas, contrato_cuyen:el.contratos }
         }
-      }      
+      }     
     ))
     //Guardo los registros para dar respuesta 
     const updatedItems = newTable.filter((item) => item.action === 'update');
@@ -72,7 +69,8 @@ const addBdPassenger = async (req,res) => {
       updatedItems,
       createdItems,
     };
-    return responseMessage;
+    console.log(responseMessage);
+    res.json(responseMessage);
   } catch (error) { console.log("Algo salio mal: ", error); 
 
 }

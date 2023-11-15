@@ -26,6 +26,7 @@
     "mssql": "^10.0.1",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
+    "redis": "^4.6.10",
     "sequelize": "^6.11.0",
     "styled-components": "^5.3.3"
   },

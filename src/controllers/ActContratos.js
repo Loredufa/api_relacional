@@ -1,16 +1,13 @@
-const { Contract } = require('../models/index')
-const { getConnection } = require('../database/connection');
+const { Contract } = require('../models/index');
+const { redisClient } = require('../utils/redisClient');
 
-const addBdContract = async (req,res) => { 
+const addBdContract = async (req, res) => {
   try {
-    //conecta con la bd de SQL Server
-    const pool = await getConnection();
-    //Trae la información de la tabla contratos
-    const result = await pool.request().query("SELECT * FROM CONTRATOS");
-    const bd = result.recordset
+    const bd = await redisClient.get('CONTRATOS');
 
-    // Convierte los datos a formato JSON para ser compatible con la bs Postgres
-    const jsonData = bd.map((el) => {
+    // Verificar y parsear bd
+    const jsonData = Array.isArray(bd) ? bd : JSON.parse(bd || '[]');
+    const jsonNewData = jsonData.map((el) => {
       return {
         num : el.CON_NUM.toString(),
         fecha: el.CON_FECHA ? el.CON_FECHA.toString() : '',
@@ -36,23 +33,26 @@ const addBdContract = async (req,res) => {
         fechaLog: el.FECHALOG ? el.FECHALOG.toString() : '',
       };
     });
-    const newTable = await Promise.all (
-      jsonData.map ( async (el)=> {
-// Verifica si el elemento ya existe en la base de datos Postgres
+    console.log(jsonNewData)
+    // Convierte los datos a formato bd Postgres
+    const newTable = await Promise.all(
+      jsonNewData.map(async (el) => {
+        // Verifica si el elemento ya existe en la base de datos Postgres
         const existingItem = await Contract.findOne({
-           where: { num: el.num}, 
-         });
-        //Si existe actualiza los datos de POstgres tal cual estan en SQL Server
-        if(existingItem) {
-          await existingItem.update(el) 
+          where: { num: el.num },
+        });
+        // Si existe actualiza los datos de POstgres tal cual están en SQL Server
+        if (existingItem) {
+          await existingItem.update(el);
           return { action: 'update', num: el.num };
-        } else { //Si no existe lo creo
-          await Contract.create(el)
-          return { action: 'create', num: el.num }
+        } else {
+          // Si no existe lo creo
+          await Contract.create(el);
+          return { action: 'create', num: el.num };
         }
-      }      
-    ))
-    //Guardo los registros para dar respuesta 
+      })
+    );
+    // Guardo los registros para dar respuesta
     const updatedItems = newTable.filter((item) => item.action === 'update');
     const createdItems = newTable.filter((item) => item.action === 'create');
     const responseMessage = {
@@ -60,13 +60,14 @@ const addBdContract = async (req,res) => {
       updatedItems,
       createdItems,
     };
-    return responseMessage;
-  } catch (error) { console.log("Algo salio mal: ", error); 
-
-}
-}
-
+    console.log(responseMessage);
+    res.json(responseMessage);
+  } catch (error) {
+    console.log('Algo salió mal: ', error);
+    return { message: 'Algo salió mal durante la sincronización' };
+  }
+};
 
 module.exports = {
-    addBdContract
-}
+  addBdContract,
+};

@@ -9,7 +9,7 @@ const dbSettings = {
     options:{
         encrypt: true,
         trustServerCertificate: true,
-        requestTimeout: 60000 //tiempo de espera 60 segundos (por defecto es 5000 ms)
+        requestTimeout: 600000 //tiempo de espera 60 segundos (por defecto es 5000 ms)
     }
 }
 

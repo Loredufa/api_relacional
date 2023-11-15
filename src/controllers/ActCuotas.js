@@ -1,16 +1,13 @@
 const { Fee } = require('../models/index')
-const { getConnection } = require('../database/connection');
+const { redisClient } = require('../utils/redisClient');
 
 const addBdFee = async (req,res) => {
   try {
-    //conecta con la bd de SQL Server
-    const pool = await getConnection();
-    //Trae la información de la tabla contratos
-    const result = await pool.request().query("SELECT * FROM CUOTAS");
-    const bd = result.recordset
-
+    const bd = await redisClient.get('CUOTAS');
+     // Verificar y parsear bd
+     const jsonData = Array.isArray(bd) ? bd : JSON.parse(bd || '[]');
     // Convierte los datos a formato JSON para ser compatible con la bs Postgres
-    const jsonData = bd.map((el) => {
+    const jsonNewData = jsonData.map((el) => {
       return {
         contrato_cuyen : el.CUO_CONTRATO.toString(),
         numPass: el.CUO_NUMPAS.toString(),
@@ -31,8 +28,9 @@ const addBdFee = async (req,res) => {
         ID_sucursal: el.ID_SUCURSAL ? el.ID_SUCURSAL.toString() : ''
       };
     });
+    console.log(jsonData)
     const newTable = await Promise.all (
-      jsonData.map ( async (el)=> {
+      jsonNewData.map ( async (el)=> {
 // Verifica si el eleme.numPass
         const existingItem = await Fee.findOne({
            where: { 
@@ -59,7 +57,8 @@ const addBdFee = async (req,res) => {
       updatedItems,
       createdItems,
     };
-    return responseMessage;
+    console.log(responseMessage);
+    res.json(responseMessage);
   } catch (error) { console.log("Algo salio mal: ", error); 
 
 }

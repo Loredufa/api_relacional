@@ -12,7 +12,7 @@ const sincronizacion = async () => {
     console.log("Algo salió mal: ", error);
   }
 
-  // Esperar 1 minuto antes de ejecutar la función nuevamente
+  // Espera antes de ejecutar la función nuevamente
   setTimeout(sincronizacion, 6000); // 60,000 milisegundos (1 minuto)
 };
 

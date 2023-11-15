@@ -1,7 +1,8 @@
 const redis = require('redis');
 const { promisify } = require('util');
+const {url_redis} = require('./config/index')
 
-const redisClient = redis.createClient({ url: 'redis://default:jncl0IZgnBql3hyLlKMuLp3ngoVqsiHA@redis-11183.c245.us-east-1-3.ec2.cloud.redislabs.com:11183' });
+const redisClient = redis.createClient({ url: url_redis });
 
 redisClient.on('error', (error) => console.error(`Error en Redis Client: ${error}`));
 

@@ -13,7 +13,7 @@ module.exports = function(sequelize) {
       type: DataTypes.STRING,
       allowNull: false,
       },
-    inicioViaje: {
+    salida: {
       type:DataTypes.STRING,
       allowNull:true,
     },
@@ -21,7 +21,7 @@ module.exports = function(sequelize) {
       type:DataTypes.STRING,
       allowNull:true,
     },
-    salida: {
+    inicioViaje: {
       type:DataTypes.STRING,
       allowNull:true,
     },

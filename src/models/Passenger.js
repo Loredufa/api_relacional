@@ -133,6 +133,10 @@ module.exports = function(sequelize) {
     id_sucursal: {
         type:DataTypes.STRING,
         allowNull:true,
+    },
+    presente: {
+        type:DataTypes.STRING,
+        allowNull:true,
     }
   })
 };

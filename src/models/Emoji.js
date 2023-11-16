@@ -3,27 +3,15 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = function(sequelize) {
   // defino el modelo
-  return sequelize.define('landing_text', {
+  return sequelize.define('emoji', {
     id:  {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.STRING,
+      allowNull: true,
       primaryKey: true
     },
-    titulo: {
+    url: {
       type: DataTypes.STRING,
       allowNull: true,
-      },
-    texto: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      },
-    posicion: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },    
-    activo: {
-      type:DataTypes.STRING,
-      allowNull:true,
     }
   })
   };

@@ -31,7 +31,7 @@ module.exports = function(sequelize) {
       allowNull:true,
     },
     contrato: {
-      type:DataTypes.STRING,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull:true,
     },
     password: {
@@ -41,7 +41,11 @@ module.exports = function(sequelize) {
     rol: {
         type:DataTypes.STRING,
         allowNull:false,
-    }
+    },
+    estado: {
+      type:DataTypes.STRING,
+      allowNull:true,
+    },
   })
 
   };

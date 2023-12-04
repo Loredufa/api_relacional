@@ -1,9 +1,16 @@
 const { Passenger } = require('../models/index')
 const { redisClient } = require('../utils/redisClient');
 
-const addBdPassenger = async (req,res) => { 
+const addBdPassenger = async () => { 
   try {
     const bd = await redisClient.get('PASAJEROS');
+     // Verificar si bd tiene datos
+     if (!bd) {
+      console.log('NO HAY PASAJEROS EN REDIS');
+      return { message: 'No hay datos para sincronizar' };
+    } else {
+      console.log('PASAJEROS OBTENIDOS EN REDIS');
+    }
     const jsonData = Array.isArray(bd) ? bd : JSON.parse(bd || '[]');
 
     // Convierte los datos a formato JSON para ser compatible con la bs Postgres
@@ -69,8 +76,8 @@ const addBdPassenger = async (req,res) => {
       updatedItems,
       createdItems,
     };
-    console.log(responseMessage);
-    res.json(responseMessage);
+    //console.log(responseMessage);
+    return responseMessage;
   } catch (error) { console.log("Algo salio mal: ", error); 
 
 }

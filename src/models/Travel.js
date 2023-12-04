@@ -22,16 +22,18 @@ module.exports = function(sequelize) {
       allowNull:true,
     },
     inicioViaje: {
-      type:DataTypes.STRING,
-      allowNull:true,
+      type: DataTypes.BOOLEAN, 
+      allowNull: true, 
+      defaultValue: false, // Valor predeterminado
     },
     ultimaUbic: {
       type:DataTypes.STRING,
       allowNull:true,
     },
     finViaje: {
-      type:DataTypes.STRING,
-      allowNull:true,
+      type: DataTypes.BOOLEAN, 
+      allowNull: true, 
+      defaultValue: false, // Valor predeterminado
     },
     contratos: {
       type:DataTypes.STRING,

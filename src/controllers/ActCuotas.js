@@ -1,9 +1,16 @@
 const { Fee } = require('../models/index')
 const { redisClient } = require('../utils/redisClient');
 
-const addBdFee = async (req,res) => {
+const addBdFee = async () => {
   try {
     const bd = await redisClient.get('CUOTAS');
+    // Verificar si bd tiene datos
+    if (!bd) {
+      console.log('NO HAY CUOTAS EN REDIS');
+      return { message: 'No hay datos para sincronizar' };
+    } else {
+      console.log('PASAJEROS OBTENIDOS EN REDIS');
+    }
      // Verificar y parsear bd
      const jsonData = Array.isArray(bd) ? bd : JSON.parse(bd || '[]');
     // Convierte los datos a formato JSON para ser compatible con la bs Postgres
@@ -28,7 +35,7 @@ const addBdFee = async (req,res) => {
         ID_sucursal: el.ID_SUCURSAL ? el.ID_SUCURSAL.toString() : ''
       };
     });
-    console.log(jsonData)
+    //console.log(jsonData)
     const newTable = await Promise.all (
       jsonNewData.map ( async (el)=> {
 // Verifica si el eleme.numPass
@@ -57,8 +64,8 @@ const addBdFee = async (req,res) => {
       updatedItems,
       createdItems,
     };
-    console.log(responseMessage);
-    res.json(responseMessage);
+    //console.log(responseMessage);
+    return responseMessage;
   } catch (error) { console.log("Algo salio mal: ", error); 
 
 }

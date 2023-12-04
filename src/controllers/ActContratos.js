@@ -1,10 +1,16 @@
 const { Contract } = require('../models/index');
 const { redisClient } = require('../utils/redisClient');
 
-const addBdContract = async (req, res) => {
+const addBdContract = async () => {
   try {
     const bd = await redisClient.get('CONTRATOS');
-
+    // Verificar si bd tiene datos
+    if (!bd) {
+      console.log('NO HAY CONTRATOS EN REDIS');
+      return { message: 'No hay datos para sincronizar' };
+    } else {
+      console.log('PASAJEROS OBTENIDOS EN REDIS');
+    }
     // Verificar y parsear bd
     const jsonData = Array.isArray(bd) ? bd : JSON.parse(bd || '[]');
     const jsonNewData = jsonData.map((el) => {
@@ -33,7 +39,7 @@ const addBdContract = async (req, res) => {
         fechaLog: el.FECHALOG ? el.FECHALOG.toString() : '',
       };
     });
-    console.log(jsonNewData)
+    //console.log(jsonNewData)
     // Convierte los datos a formato bd Postgres
     const newTable = await Promise.all(
       jsonNewData.map(async (el) => {
@@ -60,8 +66,8 @@ const addBdContract = async (req, res) => {
       updatedItems,
       createdItems,
     };
-    console.log(responseMessage);
-    res.json(responseMessage);
+    //console.log(responseMessage);
+    return responseMessage;
   } catch (error) {
     console.log('Algo salió mal: ', error);
     return { message: 'Algo salió mal durante la sincronización' };

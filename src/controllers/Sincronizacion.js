@@ -1,9 +1,8 @@
 const { addBdContract } = require('./ActContratos');
 const { addBdFee } = require('./ActCuotas');
 const { addBdPassenger } = require('./ActPasajeros');
-const {url_redis} = require('../utils/config/index')
 
-
+const TIME_AUTO = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
 const sincronizacion = async () => {
   try {
     const sync_contratos = await addBdContract();
@@ -18,7 +17,7 @@ const sincronizacion = async () => {
   }
 
   // Espera antes de ejecutar la función nuevamente
-  setTimeout(sincronizacion, url_redis); // 60,000 milisegundos (1 minuto)
+  setTimeout(sincronizacion, TIME_AUTO); // 60,000 milisegundos (1 minuto)
 };
 
 module.exports = {

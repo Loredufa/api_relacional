@@ -13,6 +13,5 @@ module.exports = {
     sql_password: process.env.SQL_PASSWORD,
     sql_server: process.env.SQL_SERVER,
     sql_database: process.env.SQL_DATABASE,
-    url_redis: process.env.URL_REDIS,
-    time_sync: process.env.TIME_SYNC
+    url_redis: process.env.URL_REDIS
 }

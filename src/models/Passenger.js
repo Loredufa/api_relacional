@@ -137,6 +137,26 @@ module.exports = function(sequelize) {
     presente: {
         type:DataTypes.STRING,
         allowNull:true,
+    },
+    ficha_med: {
+        type:DataTypes.STRING,
+        allowNull:true,
+    },
+    dec_jurada: {
+        type:DataTypes.STRING,
+        allowNull:true,
+    },
+    image_dni: {
+        type:DataTypes.STRING,
+        allowNull:true,
+    },
+    obra_soc: {
+        type:DataTypes.STRING,
+        allowNull:true,
+    },
+    dieta: {
+        type:DataTypes.STRING,
+        allowNull:true,
     }
   })
 };

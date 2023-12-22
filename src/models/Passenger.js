@@ -157,6 +157,10 @@ module.exports = function(sequelize) {
     dieta: {
         type:DataTypes.STRING,
         allowNull:true,
+    },
+    activo: {
+        type:DataTypes.STRING,
+        allowNull:true,
     }
   })
 };

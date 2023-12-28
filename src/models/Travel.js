@@ -27,7 +27,7 @@ module.exports = function(sequelize) {
       defaultValue: false, // Valor predeterminado
     },
     ultimaUbic: {
-      type:DataTypes.STRING,
+      type:DataTypes.JSON,
       allowNull:true,
     },
     finViaje: {

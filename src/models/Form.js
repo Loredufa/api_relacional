@@ -28,6 +28,10 @@ module.exports = function(sequelize) {
     horario: {
       type:DataTypes.STRING,
       allowNull:true,
+    },
+    leido: {
+      type:DataTypes.BOOLEAN,
+      allowNull:true,
     }
   })
   };

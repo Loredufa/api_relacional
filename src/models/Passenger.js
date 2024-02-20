@@ -148,10 +148,13 @@ module.exports = function(sequelize) {
     },
     image_dni: {
         type:DataTypes.ARRAY(DataTypes.STRING),
+        allowNull:true,
+        defaultValue: []
     },
     obra_soc: {
         type:DataTypes.ARRAY(DataTypes.STRING),
         allowNull:true,
+        defaultValue: []
     },
     dieta: {
         type:DataTypes.JSON,

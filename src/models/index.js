@@ -12,19 +12,9 @@ const Hotels = require('./Hotel')
 const Forms = require('./Form')
 const Landing_texts = require('./Landing_text')
 const Emojis = require('./Emoji')
+const Versions = require('./Version')
 
-const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}/${dbName}`, {
-  pool: {
-    max: 10, // Número máximo de conexiones en la piscina
-    min: 0,  // Número mínimo de conexiones en la piscina
-    acquire: 300000, // Tiempo máximo para adquirir una conexión en milisegundos
-    idle: 300000, // Tiempo máximo que una conexión puede estar inactiva en milisegundos
-  },
-});
-// Configuración del logger
-sequelize.options.logging = (msg) => {
-    console.warn(msg);
-  };
+const sequelize = new Sequelize(`postgres://${dbUser}:${dbPassword}@${dbHost}/${dbName}`);
 
 const Travel = Travels(sequelize)
 const Landing = Landings(sequelize)
@@ -38,6 +28,7 @@ const Hotel = Hotels(sequelize)
 const Form = Forms(sequelize)
 const Landing_text = Landing_texts(sequelize)
 const Emoji = Emojis(sequelize)
+const Version = Versions(sequelize)
 
 
 //Relaciones
@@ -74,5 +65,6 @@ module.exports = {
     Landing_text,
     Form,
     Emoji,
+    Version,
     sequelize
 }

@@ -6,8 +6,8 @@ module.exports = function(sequelize) {
   return sequelize.define('emoji', {
     id:  {
       type: DataTypes.STRING,
-      allowNull: true,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
     },
     url: {
       type: DataTypes.STRING,

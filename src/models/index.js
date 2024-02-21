@@ -50,6 +50,9 @@ Travel.belongsTo (Hotel, { foreignKey: 'hotelId' }) // coloca hotelId en travel
 Schedule.hasMany(Travel) 
 Travel.belongsTo (Schedule, { foreignKey: 'scheduleId' }) //  coloca scheduleId en travel
 
+Passenger.belongsToMany(Login, {through : "Passenger_Login"});
+Login.belongsToMany(Passenger, {through : "Passenger_Login"}); //crea una tabla intermedia
+
 
 module.exports = {
     conn: sequelize,

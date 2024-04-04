@@ -28,6 +28,7 @@ const addBdContract = async () => {
         destino: el.CON_DESTINO ? el.CON_DESTINO.toString() : '',
         impTot: el.CON_IMPTOT ? el.CON_IMPTOT.toString() : '',
         valor_dolares: el.CON_VALOR_DOLARES ? el.CON_VALOR_DOLARES.toString() : '',
+        cuo_sin_int : el.CON_CUO_SIN_INT? el.CON_CUO_SIN_INT.toString() : '',
         canc: el.CON_CANC ? el.CON_CANC.toString() : '',
         realiz: el.CON_REALIZ ? el.CON_REALIZ.toString() : '',
         hotel: el.CON_HOTEL ? el.CON_HOTEL.toString() : '',

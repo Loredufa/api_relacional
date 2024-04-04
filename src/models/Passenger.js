@@ -78,6 +78,10 @@ module.exports = function(sequelize) {
         type:DataTypes.STRING,
         allowNull:true,
     },
+    forma_de_pago: {
+        type:DataTypes.STRING,
+        allowNull:true,
+    },
     importe: {
         type:DataTypes.STRING,
         allowNull:true,

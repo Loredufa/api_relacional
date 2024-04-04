@@ -87,6 +87,10 @@ module.exports = function(sequelize) {
         type:DataTypes.STRING,
         allowNull:true
     },
+    valor_dolares: {
+        type:DataTypes.STRING,
+        allowNull:true
+    },
     fechaActu: {
         type:DataTypes.STRING,
         allowNull:true

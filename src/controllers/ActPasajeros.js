@@ -33,6 +33,7 @@ const addBdPassenger = async () => {
         provinc: el.PAS_PROVINC ? el.PAS_PROVINC.toString() : '',
         telef: el.PAS_TELEF ? el.PAS_TELEF.toString() : '',
         correo: el.PAS_CORREO ? el.PAS_CORREO.toString() : '',
+        forma_de_pago: PAS_FORMA_DE_PAGO ? el.PAS_FORMA_DE_PAGO.toString : '',
         importe: el.PAS_IMPORTE ? el.PAS_IMPORTE.toString() : '',
         cuotas: el.PAS_CUOTAS ? el.PAS_CUOTAS.toString() : '',
         resp: el.PAS_RESP ? el.PAS_RESP.toString() : '',

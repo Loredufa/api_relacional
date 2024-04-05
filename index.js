@@ -30,7 +30,7 @@ app.use(errorHandler)
 
 
 //Servidor
-conn.sync({force:false}).then(() => {
+conn.sync({force:true}).then(() => {
   console.log('Base de datos conectada')
   app.listen(PORT, () => {
     console.log(`Servidor corriendo en puerto ${PORT}`)

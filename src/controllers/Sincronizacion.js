@@ -2,7 +2,7 @@ const { addBdContract } = require('./ActContratos');
 const { addBdFee } = require('./ActCuotas');
 const { addBdPassenger } = require('./ActPasajeros');
 
-const TIME_AUTO = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
+const TIME_AUTO = 1 * 60 * 60 * 1000; // 24 horas en milisegundos
 const sincronizacion = async () => {
   try {
     const sync_contratos = await addBdContract();

@@ -22,7 +22,7 @@ const addBdPassenger = async () => {
         nombre: el.PAS_NOMBRE ? el.PAS_NOMBRE.toString() : '',
         dni: el.PAS_DNI ? el.PAS_DNI.toString() : '',
         tipoDoc: el.PAS_TIPODOC ? el.PAS_TIPODOC.toString() : '',
-        fechaNac: el.PAS_FECHANAC ? el.PAS_FECHANAC.toString() : '',
+        fechaNac: el.PAS_FECHANAC ? el.PAS_FECHANAC.toString().split('T')[0] : '', 
         edad: el.PAS_EDAD ? el.PAS_EDAD.toString() : '',
         sexo: el.PAS_SEXO ? el.PAS_SEXO.toString() : '',
         direccion: el.PAS_DIRECCION ? el.PAS_DIRECCION.toString() : '',

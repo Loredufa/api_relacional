@@ -10,11 +10,11 @@ module.exports = function(sequelize) {
       primaryKey: true
     },
     image: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
       }, 
     folleto: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     posicion: {

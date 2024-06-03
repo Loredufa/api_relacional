@@ -3,7 +3,7 @@ const { addBdFee } = require('./ActCuotas');
 const { addBdPassenger } = require('./ActPasajeros');
 
 //const TIME_AUTO = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
-const TIME_AUTO = 10 * 60 * 1000; // 10 minutos en milisegundos
+const TIME_AUTO = 30 * 60 * 1000; // 10 minutos en milisegundos
 
 const sincronizacion = async () => {
   try {
